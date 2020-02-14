@@ -26,4 +26,4 @@ OR
 
 
 
-With your RStudio project set up, you may read the `ReadMe.md`, open `code/install_script_data_processing.R` and run it.
+With your RStudio project set up, you may read the `ReadMe.md`, open `code/install_script.R` and run it.
