@@ -1,4 +1,4 @@
-R-I-Basics
+R-II-Programming
 
 This is the repo for the workshop that focuses on Part II of (the soon-to-be-renamed) [Data Processing and Visualization](https://m-clark.github.io/data-processing-and-visualization) notes.
 
@@ -10,7 +10,7 @@ Run the following in your R session to get the notes and materials for the works
 install.packages('usethis')
 
 usethis::use_course(
-  'https://github.com/m-clark/R-I-Basics/blob/master/workshop_programming.zip?raw=true', 
+  'https://github.com/m-clark/R-II-Programming/blob/master/workshop_programming.zip?raw=true', 
   destdir = NULL
 )
 ```
