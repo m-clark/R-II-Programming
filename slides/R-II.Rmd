@@ -56,6 +56,21 @@ kable_df = function(data, digits=3, ...) {
 perc = function(x, digits = 1) paste(rnd(x*100, digits = digits), '%')
 ```
 
+```{r setup-logo, echo=FALSE, eval=TRUE}
+# DOESN'T DISPLAY WITH INVERSE
+# xaringanExtra::use_xaringan_extra(c("tile_view", "animate_css", "tachyons"))
+#https://raw.githubusercontent.com/m-clark/m-clark.github.io/master/img/mc_logo.png
+xaringanExtra::use_logo(
+  image_url = 'https://raw.githubusercontent.com/m-clark/m-clark.github.io/master/img/mc_logo.png', 
+  link_url = 'https://m-clark.github.io',
+  width = '5%', 
+  position =  xaringanExtra::css_position(bottom = "-2em", left = "1em"),
+  exclude_class = c("title-slide")
+)
+```
+
+
+
 ```{r setup-packs}
 library(tidyverse)
 ```
@@ -63,6 +78,10 @@ library(tidyverse)
 
 ---
 class: inverse, middle, center
+
+
+
+
 
 ### *Basics*
 

@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="author" content="Michael Clark" />
     <meta name="date" content="2020-10-13" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="style.css" type="text/css" />
@@ -27,6 +28,42 @@ background-image: url(https://github.com/m-clark/m-clark.github.io/raw/master/im
 
 
 
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 5%;
+height: 128px;
+z-index: 0;
+background-image: url(https://raw.githubusercontent.com/m-clark/m-clark.github.io/master/img/mc_logo.png);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+bottom:-2em;left:1em;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide)')
+        .forEach(function (slide) {
+          const logo = document.createElement('a')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = 'https://m-clark.github.io'
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+
+
 
 ```r
 library(tidyverse)
@@ -35,6 +72,10 @@ library(tidyverse)
 
 ---
 class: inverse, middle, center
+
+
+
+
 
 ### *Basics*
 
@@ -52,6 +93,40 @@ class: inverse middle center
 &lt;br&gt;
 &lt;br&gt;
 &lt;i class="fas fa-laptop-code fa-5x"&gt;&lt;/i&gt;
+
+---
+class: inverse 
+
+# Basics: Objects
+
+
+```r
+library(tidyverse)
+str(diamonds)
+glimpse(diamonds)
+```
+
+---
+class: inverse 
+
+# Basics: Documentation
+
+
+```r
+sample(?)
+```
+
+
+---
+class: inverse 
+
+# Basics:
+
+
+---
+class: inverse 
+
+# Basics:
 
 
 
@@ -91,6 +166,8 @@ class: last-slide, inverse, center, middle
 
 
 ![](https://github.com/m-clark/m-clark.github.io/raw/master/img/Rlogo.svg)
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
