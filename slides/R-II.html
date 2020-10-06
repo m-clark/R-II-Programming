@@ -5,9 +5,21 @@
     <meta charset="utf-8" />
     <meta name="author" content="Michael Clark" />
     <meta name="date" content="2020-10-13" />
-    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra_fit-screen/fit-screen.js"></script>
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
+    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
     <link rel="stylesheet" href="style.css" type="text/css" />
   </head>
   <body>
@@ -37,7 +49,7 @@ background-image: url(https://raw.githubusercontent.com/m-clark/m-clark.github.i
 background-size: contain;
 background-repeat: no-repeat;
 position: absolute;
-bottom:-2em;left:1em;
+bottom:-3em;left:1em;
 }
 </style>
 <script>(function () {
@@ -60,7 +72,13 @@ bottom:-2em;left:1em;
   }
   document.addEventListener('DOMContentLoaded', addLogo)
 })()</script>
-</div>
+</div><style>.shareagain-bar {
+--shareagain-foreground: rgb(255, 255, 255);
+--shareagain-background: rgba(0, 0, 0, 0.5);
+--shareagain-facebook: none;
+--shareagain-pinterest: none;
+--shareagain-reddit: none;
+}</style>
 
 
 
@@ -71,7 +89,7 @@ library(tidyverse)
 
 
 ---
-class: inverse, middle, center
+class: inverse middle center
 
 
 
@@ -87,12 +105,104 @@ class: inverse, middle, center
 
 
 ---
-class: inverse middle center
+class: inverse middle center animated rollIn rollOut # https://animate.style/
 
-# Basics
+
+# Basics 
 &lt;br&gt;
 &lt;br&gt;
 &lt;i class="fas fa-laptop-code fa-5x"&gt;&lt;/i&gt;
+
+---
+class: inverse center
+
+# Basics: Objects
+
+
+--
+
+&lt;br&gt;
+
+## What is an &lt;span class="" style = "text-shadow: 0 0 50px #EBA42BFF"&gt;*object*&lt;/span&gt;?
+
+--
+## Anything!
+
+--
+
+&lt;div class="" style = "font-size:20pt"&gt;
+data frames&lt;br&gt;
+
+lists&lt;br&gt;
+
+vectors&lt;br&gt;
+
+matrices&lt;br&gt;
+
+strings&lt;br&gt;
+
+plots
+&lt;/div&gt;
+
+
+
+---
+class: inverse
+
+# Basics: Objects
+
+Everything in R revolves around the objects we create
+
+
+```r
+my_value = 'M'
+
+my_vector = rnorm(100)
+
+my_df = data.frame(A = rnorm(100), B = runif(100))
+
+my_plot = qplot(A, B, data = my_df)
+
+my_list = list(
+  my_value,
+  my_vector,
+  my_df,
+  my_plot
+)
+```
+
+
+
+---
+class: inverse 
+
+# Basics: Objects
+
+How do we understand them?
+
+--
+
+
+```r
+library(tidyverse)
+
+glimpse(diamonds)
+```
+
+```
+Rows: 53,940
+Columns: 10
+$ carat   &lt;dbl&gt; 0.23, 0.21, 0.23, 0.29, 0.31, 0.24, 0.24, 0.26, 0.22, 0.23, 0.30, 0.23, 0.22, 0.31, 0.20, 0.32, 0.30, 0.30, 0.30, 0.30, 0.30, 0.23, 0.23, 0.31, 0.31, 0.23, 0.24, 0.30, 0.23, 0.23, 0.23, 0.23, 0.23, 0.2…
+$ cut     &lt;ord&gt; Ideal, Premium, Good, Premium, Good, Very Good, Very Good, Very Good, Fair, Very Good, Good, Ideal, Premium, Ideal, Premium, Premium, Ideal, Good, Good, Very Good, Good, Very Good, Very Good, Very Good…
+$ color   &lt;ord&gt; E, E, E, I, J, J, I, H, E, H, J, J, F, J, E, E, I, J, J, J, I, E, H, J, J, G, I, J, D, F, F, F, E, E, D, F, E, H, D, I, I, J, D, D, H, F, H, H, E, H, F, G, I, E, D, I, J, I, I, I, I, D, D, D, I, G, I, …
+$ clarity &lt;ord&gt; SI2, SI1, VS1, VS2, SI2, VVS2, VVS1, SI1, VS2, VS1, SI1, VS1, SI1, SI2, SI2, I1, SI2, SI1, SI1, SI1, SI2, VS2, VS1, SI1, SI1, VVS2, VS1, VS2, VS2, VS1, VS1, VS1, VS1, VS1, VS1, VS1, VS1, SI1, VS2, SI2,…
+$ depth   &lt;dbl&gt; 61.5, 59.8, 56.9, 62.4, 63.3, 62.8, 62.3, 61.9, 65.1, 59.4, 64.0, 62.8, 60.4, 62.2, 60.2, 60.9, 62.0, 63.4, 63.8, 62.7, 63.3, 63.8, 61.0, 59.4, 58.1, 60.4, 62.5, 62.2, 60.5, 60.9, 60.0, 59.8, 60.7, 59.…
+$ table   &lt;dbl&gt; 55.0, 61.0, 65.0, 58.0, 58.0, 57.0, 57.0, 55.0, 61.0, 61.0, 55.0, 56.0, 61.0, 54.0, 62.0, 58.0, 54.0, 54.0, 56.0, 59.0, 56.0, 55.0, 57.0, 62.0, 62.0, 58.0, 57.0, 57.0, 61.0, 57.0, 57.0, 57.0, 59.0, 58.…
+$ price   &lt;int&gt; 326, 326, 327, 334, 335, 336, 336, 337, 337, 338, 339, 340, 342, 344, 345, 345, 348, 351, 351, 351, 351, 352, 353, 353, 353, 354, 355, 357, 357, 357, 402, 402, 402, 402, 402, 402, 402, 402, 403, 403, 4…
+$ x       &lt;dbl&gt; 3.95, 3.89, 4.05, 4.20, 4.34, 3.94, 3.95, 4.07, 3.87, 4.00, 4.25, 3.93, 3.88, 4.35, 3.79, 4.38, 4.31, 4.23, 4.23, 4.21, 4.26, 3.85, 3.94, 4.39, 4.44, 3.97, 3.97, 4.28, 3.96, 3.96, 4.00, 4.04, 3.97, 4.0…
+$ y       &lt;dbl&gt; 3.98, 3.84, 4.07, 4.23, 4.35, 3.96, 3.98, 4.11, 3.78, 4.05, 4.28, 3.90, 3.84, 4.37, 3.75, 4.42, 4.34, 4.29, 4.26, 4.27, 4.30, 3.92, 3.96, 4.43, 4.47, 4.01, 3.94, 4.30, 3.97, 3.99, 4.03, 4.06, 4.01, 4.0…
+$ z       &lt;dbl&gt; 2.43, 2.31, 2.31, 2.63, 2.75, 2.48, 2.47, 2.53, 2.49, 2.39, 2.73, 2.46, 2.33, 2.71, 2.27, 2.68, 2.68, 2.70, 2.71, 2.66, 2.71, 2.48, 2.41, 2.62, 2.59, 2.41, 2.47, 2.67, 2.40, 2.42, 2.41, 2.42, 2.42, 2.4…
+```
 
 ---
 class: inverse 
@@ -101,9 +211,102 @@ class: inverse
 
 
 ```r
-library(tidyverse)
-str(diamonds)
-glimpse(diamonds)
+lm_mod = lm(mpg ~ ., data=mtcars)
+
+str(lm_mod, 1)  # works for functions too! try str(lm)
+```
+
+```
+List of 12
+ $ coefficients : Named num [1:11] 12.3034 -0.1114 0.0133 -0.0215 0.7871 ...
+  ..- attr(*, "names")= chr [1:11] "(Intercept)" "cyl" "disp" "hp" ...
+ $ residuals    : Named num [1:32] -1.6 -1.112 -3.451 0.163 1.007 ...
+  ..- attr(*, "names")= chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...
+ $ effects      : Named num [1:32] -113.65 -28.6 6.13 -3.06 -4.06 ...
+  ..- attr(*, "names")= chr [1:32] "(Intercept)" "cyl" "disp" "hp" ...
+ $ rank         : int 11
+ $ fitted.values: Named num [1:32] 22.6 22.1 26.3 21.2 17.7 ...
+  ..- attr(*, "names")= chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...
+ $ assign       : int [1:11] 0 1 2 3 4 5 6 7 8 9 ...
+ $ qr           :List of 5
+  ..- attr(*, "class")= chr "qr"
+ $ df.residual  : int 21
+ $ xlevels      : Named list()
+ $ call         : language lm(formula = mpg ~ ., data = mtcars)
+ $ terms        :Classes 'terms', 'formula'  language mpg ~ cyl + disp + hp + drat + wt + qsec + vs + am + gear + carb
+  .. ..- attr(*, "variables")= language list(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
+  .. ..- attr(*, "factors")= int [1:11, 1:10] 0 1 0 0 0 0 0 0 0 0 ...
+  .. .. ..- attr(*, "dimnames")=List of 2
+  .. ..- attr(*, "term.labels")= chr [1:10] "cyl" "disp" "hp" "drat" ...
+  .. ..- attr(*, "order")= int [1:10] 1 1 1 1 1 1 1 1 1 1
+  .. ..- attr(*, "intercept")= int 1
+  .. ..- attr(*, "response")= int 1
+  .. ..- attr(*, ".Environment")=&lt;environment: R_GlobalEnv&gt; 
+  .. ..- attr(*, "predvars")= language list(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
+  .. ..- attr(*, "dataClasses")= Named chr [1:11] "numeric" "numeric" "numeric" "numeric" ...
+  .. .. ..- attr(*, "names")= chr [1:11] "mpg" "cyl" "disp" "hp" ...
+ $ model        :'data.frame':	32 obs. of  11 variables:
+  ..- attr(*, "terms")=Classes 'terms', 'formula'  language mpg ~ cyl + disp + hp + drat + wt + qsec + vs + am + gear + carb
+  .. .. ..- attr(*, "variables")= language list(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
+  .. .. ..- attr(*, "factors")= int [1:11, 1:10] 0 1 0 0 0 0 0 0 0 0 ...
+  .. .. .. ..- attr(*, "dimnames")=List of 2
+  .. .. ..- attr(*, "term.labels")= chr [1:10] "cyl" "disp" "hp" "drat" ...
+  .. .. ..- attr(*, "order")= int [1:10] 1 1 1 1 1 1 1 1 1 1
+  .. .. ..- attr(*, "intercept")= int 1
+  .. .. ..- attr(*, "response")= int 1
+  .. .. ..- attr(*, ".Environment")=&lt;environment: R_GlobalEnv&gt; 
+  .. .. ..- attr(*, "predvars")= language list(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
+  .. .. ..- attr(*, "dataClasses")= Named chr [1:11] "numeric" "numeric" "numeric" "numeric" ...
+  .. .. .. ..- attr(*, "names")= chr [1:11] "mpg" "cyl" "disp" "hp" ...
+ - attr(*, "class")= chr "lm"
+```
+
+---
+class: inverse 
+
+# Basics: Objects
+
+*Classes* tell us the kind of object we're dealing with.
+
+*Methods* work on different classes.
+
+
+```r
+class(diamonds)  # data.frame
+
+summary(diamonds)
+
+class(diamonds$clarity)   # ordered factor
+
+summary(diamonds$clarity)
+
+class(lm_mod)   # lm
+
+summary(lm_mod)
+```
+
+
+
+---
+class: inverse 
+
+# Basics: Objects
+
+
+```r
+methods('summary')
+```
+
+```
+ [1] summary,ANY-method             summary,DBIObject-method       summary.aov                    summary.aovlist*               summary.aspell*                summary.check_packages_in_dir*
+ [7] summary.connection             summary.data.frame             summary.Date                   summary.default                summary.Duration*              summary.ecdf*                 
+[13] summary.factor                 summary.ggplot*                summary.glm                    summary.haven_labelled*        summary.hcl_palettes*          summary.infl*                 
+[19] summary.Interval*              summary.lm                     summary.loess*                 summary.manova                 summary.matrix                 summary.mlm*                  
+[25] summary.nls*                   summary.packageStatus*         summary.Period*                summary.POSIXct                summary.POSIXlt                summary.ppr*                  
+[31] summary.prcomp*                summary.princomp*              summary.proc_time              summary.rlang_error*           summary.rlang_trace*           summary.srcfile               
+[37] summary.srcref                 summary.stepfun                summary.stl*                   summary.table                  summary.tukeysmooth*           summary.vctrs_sclr*           
+[43] summary.vctrs_vctr*            summary.warnings              
+see '?methods' for accessing help and source code
 ```
 
 ---
@@ -111,27 +314,47 @@ class: inverse
 
 # Basics: Documentation
 
+Use the &lt;span class="func" style = ""&gt;sample&lt;/span&gt; function to get a random sample of 10 values from the numbers 1 to 5. 
+
 
 ```r
 sample(?)
 ```
 
+--
+Don’t know what to put? 
+
+--
+
+Consult the help file!
+
 
 ---
 class: inverse 
 
-# Basics:
+# Basics: Documentation
 
+![](img/help.png)
 
 ---
 class: inverse 
 
-# Basics:
+# Basics: Exercises
 
+With one function, find out what the class, number of rows, number of columns are of the following object, including what kind of object the last three columns are. Inspect the help file also.
+
+
+
+```r
+library(dplyr)
+
+?starwars
+```
 
 
 ---
-class: inverse middle  center
+class: inverse middle center
+
 
 # Iterative Programming
 &lt;br&gt;
@@ -139,7 +362,94 @@ class: inverse middle  center
 &lt;i class="fas fa-sync-alt fa-5x"&gt;&lt;/i&gt;
 
 ---
-class: inverse  center
+class: inverse
+
+# Iterative Programming: For Loops
+
+Do you do something like this?
+
+
+```r
+means1 = mean(df$x)
+means2 = mean(df$y)
+means3 = mean(df$z)
+means4 = mean(df$q)
+```
+
+--
+
+&lt;i class="far fa-times-circle fa-9x" style="position: relative; top: -200px; height: -500px; display: block"&gt;&lt;/i&gt;
+
+---
+class: inverse
+
+# Iterative Programming: For Loops
+
+Write a *loop* instead!
+
+
+```r
+for (column in c('x','y','z','q')) {
+  mean(df[[column]])
+}
+```
+
+What’s going on here? 
+
+--
+
+We’ve created an iterative process in which:
+
+--
+
+*for* every *element* in `c('x','y','z','q')`... 
+
+--
+
+Do something!
+
+---
+class: inverse
+
+# Iterative Programming: For Loops
+
+
+```r
+weather = nycflights13::weather
+
+for (column in c('temp', 'humid', 'wind_speed', 'precip')) {
+  print(mean(weather[[column]], na.rm = TRUE))
+}
+```
+
+```
+[1] 55.26039
+[1] 62.53006
+[1] 10.51749
+[1] 0.004469079
+```
+
+
+---
+class: inverse
+
+# Iterative Programming: Implicit Loops
+
+
+
+---
+class: inverse
+
+# Iterative Programming: Looping with Lists
+
+
+
+---
+class: inverse
+
+# Iterative Programming: Exercises
+
+
 ---
 class: inverse middle  center
 
@@ -152,12 +462,73 @@ class: inverse middle  center
 
 
 ---
-class: inverse middle  center
+class: inverse
 
-# Iterative Programming
+# Functions: Starting Out
+
+
+---
+class: inverse
+
+# Functions: DRY
+
+
+
+---
+class: inverse
+
+# Functions: Conditionals
+
+
+
+---
+class: inverse
+
+# Functions: Anonymous Functions
+
+
+
+---
+class: inverse
+
+# Functions: Exercises
+
+
+
+---
+class: inverse 
+
+# More
+
 &lt;br&gt;
 &lt;br&gt;
 &lt;i class="fab fa-r-project fa-5x"&gt;&lt;/i&gt;
+
+---
+class: inverse
+
+# More: Code Style
+
+
+
+---
+class: inverse
+
+# More: Vectorization
+
+
+
+---
+class: inverse
+
+# More: Regular Expressions
+
+
+
+---
+class: inverse
+
+# More: Exercises
 
 
 ---
@@ -166,8 +537,6 @@ class: last-slide, inverse, center, middle
 
 
 ![](https://github.com/m-clark/m-clark.github.io/raw/master/img/Rlogo.svg)
-
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
