@@ -277,7 +277,7 @@ library(dplyr)
 
 
 ---
-class: inverse middle center
+class: inverse middle center animated zoomIn rollOut # https://animate.style/
 
 
 # Iterative Programming
@@ -309,6 +309,8 @@ class: inverse
 # Iterative Programming: For Loops
 
 Write a *loop* instead!
+
+--
 
 ```{r}
 for (column in c('x','y','z','q')) {
@@ -347,8 +349,148 @@ for (column in c('temp', 'humid', 'wind_speed', 'precip')) {
 ---
 class: inverse
 
+# Iterative Programming: For Loops
+
+Using *while* is exactly the same.
+
+Useful when you have a specific check 
+- a *condition*
+
+```{r eval=T}
+columns = c('temp','humid','wind_speed', 'visib', 'pressure')
+nyc_means = c()
+
+i = 1
+
+while (i <= length(columns)) {
+  nyc_means[i] = mean(weather[[columns[i]]], na.rm = TRUE)
+  i = i + 1
+}
+
+nyc_means %>% round(2)
+```
+
+
+
+---
+class: inverse
+
 # Iterative Programming: Implicit Loops
 
+We can loop without `for` or `while`!
+
+- <span class="func" style = "">apply</span> family
+- <span class="func" style = "">purrr</span> family
+
+---
+class: inverse
+
+# Iterative Programming: Implicit Loops
+
+Why?
+
+
+- Cleaner/simpler code
+- Environment clear of unnecessary objects
+- Potentially more reproducible
+  - more likely to use generalizable functions
+- Parallelizable
+
+---
+class: inverse
+
+# Iterative Programming: Implicit Loops
+
+
+*apply*
+- arrays, matrices, data.frames
+
+*lapply*, *sapply*, *vapply*
+- lists, data.frames, vectors
+
+*tapply*
+- grouped operations (table *apply*)
+
+*mapply*
+- multivariate version of *sapply*
+
+*replicate*
+- performs an operation N times
+
+---
+class: inverse
+
+# Iterative Programming: Implicit Loops
+
+How do they work?
+
+```{r, eval=TRUE}
+columns = c('temp','humid','wind_speed', 'visib', 'pressure')
+apply(weather[columns], 2, mean, na.rm=T)
+
+my_list = list(1, 1:10, 1:20)
+lapply(my_list, sum)
+```
+
+---
+class: inverse
+
+# Iterative Programming: Implicit Loops
+
+How do they work?
+
+Find a function, **apply** it to an object!
+
+```{r, eval=TRUE}
+my_list = list(1:3, 4:6, 7:9)
+sapply(my_list, sum) # lapply that simplifies if possible
+
+replicate(2, rnorm(3)) # also simplifies if possible
+```
+
+
+---
+class: inverse
+
+# Iterative Programming: Implicit Loops
+
+purrr is best with *data.frame* or *list* objects
+- works the same way in spirit
+- more control over output
+  - can be frustrating!
+
+---
+class: inverse
+
+# Iterative Programming: Implicit Loops
+
+```{r, eval=TRUE}
+map(my_list, sum)
+
+map_int(my_list, sum)
+
+map_df(my_list, ~data.frame(x = sum(.)))
+```
+
+---
+class: inverse
+
+# Iterative Programming: Implicit Loops
+
+```{r, eval=TRUE}
+diamonds %>%
+  map_at(
+    vars(carat, depth, price),
+    function(x)
+      as.integer(x > median(x))
+  ) %>% 
+  as_tibble()
+```
+
+---
+class: inverse
+
+# Iterative Programming: Implicit Loops
 
 
 ---
