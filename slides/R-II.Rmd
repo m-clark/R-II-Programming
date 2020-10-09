@@ -57,21 +57,22 @@ perc = function(x, digits = 1) paste(rnd(x*100, digits = digits), '%')
 ```
 
 ```{r setup-extra, echo=FALSE, eval=TRUE}
-# DOESN'T DISPLAY WITH INVERSE
-xaringanExtra::use_xaringan_extra(c(
-  "tile_view",
-  "animate_css",
-  "tachyons",
-  'clipboard',
-  'fit_screen',
-  'webcam',
-  'panelset'
-))
+xaringanExtra::use_xaringan_extra(
+  c(
+    "tile_view",
+    "animate_css",
+    "tachyons",
+    'clipboard',
+    'fit_screen',
+    'webcam',
+    'panelset'
+  )
+)
 
 xaringanExtra::use_logo(
-  image_url = 'https://raw.githubusercontent.com/m-clark/m-clark.github.io/master/img/mc_logo.png', 
+  image_url = 'https://raw.githubusercontent.com/m-clark/m-clark.github.io/master/img/mc_logo.png',
   link_url = 'https://m-clark.github.io',
-  width = '5%', 
+  width = '5%',
   position =  xaringanExtra::css_position(bottom = "-3em", left = "1em"),
   exclude_class = c("title-slide")
 )
@@ -247,7 +248,7 @@ sample(?)
 ```
 
 --
-Don’t know what to put? 
+Don't know what to put? 
 
 --
 
@@ -318,11 +319,11 @@ for (column in c('x','y','z','q')) {
 }
 ```
 
-What’s going on here? 
+What's going on here? 
 
 --
 
-We’ve created an iterative process in which:
+We've created an iterative process in which:
 
 --
 
@@ -426,7 +427,7 @@ How do they work?
 
 ```{r, eval=TRUE}
 columns = c('temp','humid','wind_speed', 'visib', 'pressure')
-apply(weather[columns], 2, mean, na.rm=T)
+apply(weather[columns], 2, mean, na.rm=T)  # 2 for columns, 1 for rows
 
 my_list = list(1, 1:10, 1:20)
 lapply(my_list, sum)
@@ -455,8 +456,9 @@ class: inverse
 # Iterative Programming: Implicit Loops
 
 purrr is best with *data.frame* or *list* objects
-- works the same way in spirit
+- works the same way in spirit as `*apply`.
 - more control over output
+  - more strict about input
   - can be frustrating!
 
 ---
@@ -482,7 +484,7 @@ diamonds %>%
   map_at(
     vars(carat, depth, price),
     function(x)
-      as.integer(x > median(x))
+      x > median(x)
   ) %>% 
   as_tibble()
 ```
@@ -492,12 +494,77 @@ class: inverse
 
 # Iterative Programming: Implicit Loops
 
+Faster implicit loops: parallelization!
+
+- <span class="pack" style = "">parallel</span> package in base R
+  - <span class="func" style = "">apply</span> family
+  - <span class="func" style = "">parApply</span>, <span class="func" style = "">parLapply</span>, etc.
+  
+  
+- <span class="pack" style = "">furrr</span> package 
+  - <span class="pack" style = "">purrr</span> functions
+  - requires <span class="pack" style = "">futures</span> package
+  - <span class="func" style = "">future_map*</span> functions
+
+
 
 ---
-class: inverse
+class: inverse slide-title-90
 
 # Iterative Programming: Looping with Lists
 
+<div style="text-align: center;">
+<i class="fa fa-list-ol fa-3x"></i>
+</div>
+
+Lists are easy to loop!
+
+And we can put anything in them to loop over!
+
+
+---
+class: inverse slide-title-90
+
+# Iterative Programming: Looping with Lists
+
+```{r, eval=TRUE}
+library(mgcv) # for gam
+
+mtcars$cyl = factor(mtcars$cyl)
+
+mod_lm = lm(mpg ~ wt, data = mtcars)
+
+mod_poly = lm(mpg ~ poly(wt, 2), data = mtcars)
+
+mod_inter = lm(mpg ~ wt * cyl, data = mtcars)
+
+mod_gam = gam(mpg ~ s(wt), data = mtcars)
+
+mod_gam_inter = gam(mpg ~ cyl + s(wt, by = cyl), data = mtcars)
+```
+
+
+
+
+---
+class: inverse slide-title-90
+
+# Iterative Programming: Looping with Lists
+
+```{r, eval=T}
+model_list = list(
+  mod_lm        = mod_lm,
+  mod_poly      = mod_poly,
+  mod_inter     = mod_inter,
+  mod_gam       = mod_gam,
+  mod_gam_inter = mod_gam_inter
+)
+
+# lowest wins
+model_list %>% 
+  map_df(AIC) %>% 
+  sort()
+```
 
 
 ---
@@ -505,16 +572,42 @@ class: inverse
 
 # Iterative Programming: Exercises
 
+Exercise 1
+
+With the following matrix, use apply and the sum function to get row or column sums of the matrix x.
+
+```{r}
+x = matrix(1:9, 3, 3)
+```
 
 ---
-class: inverse middle  center
+class: inverse
+
+# Iterative Programming: Exercises
+
+
+Exercise 2 
+
+Use a map function to create a data frame of the column means. See `?map` to see all your options.
+
+```{r}
+d = tibble(
+  x = rnorm(100),
+  y = rnorm(100, 10, 2),
+  z = rnorm(100, 50, 10),
+)
+```
+
+
+---
+class: inverse middle  center animated bounceInDown rollOut # https://animate.style/
 
 # Functions
 
 <br>
 <br>
 
-<i class="fa fa-code fa-5x"></i>
+<i class="fa fa-terminal fa-5x"></i>
 
 
 ---
@@ -522,6 +615,137 @@ class: inverse
 
 # Functions: Starting Out
 
+What's a function?
+
+<div style='background-color: #fff; text-align: center'>
+<img src="img/function.svg" style="display:block; margin: 0 auto; width: 33%">
+
+</div>
+
+Scary?!
+
+---
+class: inverse
+
+# Functions: Starting Out
+
+Not really! 
+
+```{r, eval=TRUE}
+square_this = function(x) x^2
+add_one     = function(x) x + 1
+
+3 %>% 
+  square_this() %>% 
+  add_one()
+```
+
+
+
+
+---
+class: inverse
+
+# Functions: Starting Out
+
+You use functions all the time.
+
+Why not make your own?
+
+Key idea: *reusable code*
+
+
+---
+class: inverse
+
+# Functions: Starting Out
+
+```{r}
+mean(myvar)
+sd(myvar)
+sum(is.na(myvar))
+```
+
+Let's create a function that would do this.
+
+And spit out a usable data frame!
+
+--
+
+```{r}
+my_summary <- function(x) {
+  data.frame(
+    mean = mean(x),
+    sd = sd(x),
+    N_missing = sum(is.na(x))
+  )
+}
+```
+
+---
+class: inverse
+
+# Functions: Starting Out
+
+```{r, eval=T}
+my_summary <- function(x) {
+  data.frame(
+    mean = mean(x),
+    sd = sd(x),
+    N_missing = sum(is.na(x))
+  )
+}
+```
+
+
+`x` is an arbitrary name for an input. 
+  - In R these are called *arguments*
+  - These inputs will determine the output
+
+
+---
+class: inverse
+
+# Functions: Starting Out
+
+Typically data has missing values.
+
+```{r, eval=TRUE, echo=FALSE}
+load('../../../data-processing-and-visualization/data/gapminder.RData')
+```
+
+
+```{r, eval=F}
+load('data/gapminder.RData')
+```
+
+
+```{r, eval=TRUE}
+my_summary(gapminder_2019$lifeExp)
+```
+
+
+Let's fix this!
+
+---
+class: inverse
+
+# Functions: Starting Out
+
+Since we have a function, we can modify it
+
+```{r, eval=T}
+my_summary_na <- function(x, remove_na = TRUE) {
+  data.frame(
+    mean = mean(x, na.rm = remove_na),
+    sd   = sd(x, na.rm = remove_na),
+    N_missing = sum(is.na(x))
+  )
+}
+
+my_summary(gapminder_2019$lifeExp)
+my_summary_na(gapminder_2019$lifeExp)
+```
 
 ---
 class: inverse
