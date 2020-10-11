@@ -18,7 +18,12 @@ em {
   text-shadow: 0 0 10px #EBA42BFF;
 }
 
-
+strong {
+  color: #ECD078FF;
+  font-style: normal;
+  font-weight: 700;
+  text-shadow: 0 0 10px #EBA42BFF;
+}
 
 h1, h2, h3, h4, h5 {
   font-family: 'Yanone Kaffeesatz';
@@ -46,12 +51,6 @@ h1, h2, h3, h4, h5 {
 }
 
 
-
-/*
- #data-wrangling {
-  color: #ECD078FF;
-}
-*/
 
 .inverse {
   background-color: #542437FF; /*#1A1A1AFF*/
@@ -95,6 +94,13 @@ ul li ul li {
   font-size: 20px;
 }
 
+blockquote {
+  border-left: solid 5px #EBA42BFF;
+  font-size: 80%;
+}
+
+/* names */
+
 .pack {
   color: #1f65b7;
 }
@@ -133,6 +139,8 @@ ul li ul li {
   font-size: 12pt;
 }
 
+/*fontawesome*/
+
 .fa, .far, .fas, .fab {
   color: #EBA42BFF;
   text-shadow: 0 0 10px #EBA42BFF;
@@ -151,4 +159,10 @@ ul li ul li {
 
 .slide-title-90 h1 {
   font-size: 140%;
+}
+
+.code-only {
+  margin: 0;
+  padding: 0;
+  background-color: #3f3f3f; /* zenburn*/
 }

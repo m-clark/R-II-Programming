@@ -517,9 +517,11 @@ class: inverse slide-title-90
 <i class="fa fa-list-ol fa-3x"></i>
 </div>
 
-Lists are easy to loop!
+<br>
 
-And we can put anything in them to loop over!
+Lists are easy to loop over!
+
+And we can put anything in them!
 
 
 ---
@@ -668,6 +670,8 @@ sum(is.na(myvar))
 
 Let's create a function that would do this.
 
+--
+
 And spit out a usable data frame!
 
 --
@@ -699,8 +703,8 @@ my_summary <- function(x) {
 
 
 `x` is an arbitrary name for an input. 
-  - In R these are called *arguments*
-  - These inputs will determine the output
+- In R these are called *arguments*
+- These inputs will determine the output
 
 
 ---
@@ -724,15 +728,20 @@ load('data/gapminder.RData')
 my_summary(gapminder_2019$lifeExp)
 ```
 
+--
 
-Let's fix this!
+Now the function doesn't do what we want. 😢
+
+--
+
+Let's fix this! 😀
 
 ---
 class: inverse
 
 # Functions: Starting Out
 
-Since we have a function, we can modify it
+Since we have a function, we can easily modify it.
 
 ```{r, eval=T}
 my_summary_na <- function(x, remove_na = TRUE) {
@@ -743,7 +752,6 @@ my_summary_na <- function(x, remove_na = TRUE) {
   )
 }
 
-my_summary(gapminder_2019$lifeExp)
 my_summary_na(gapminder_2019$lifeExp)
 ```
 
@@ -752,6 +760,79 @@ class: inverse
 
 # Functions: DRY
 
+*<div class="" style = "text-align: center">Don't Repeat Yourself!</div>*
+ 
+We would like more efficiency where possible. 
+
+A good rule of thumb is: 
+> If you are writing the same set of code more than twice, you should write a function to do it instead.
+
+
+---
+class: inverse
+
+# Functions: DRY
+
+```{r}
+good_mileage_displ_low_cyl_4  = if_else(cyl == 4 & displ < mean(displ) & hwy > 30, 'yes', 'no')
+good_mileage_displ_low_cyl_6  = if_else(cyl == 6 & displ < mean(displ) & hwy > 30, 'yes', 'no')
+good_mileage_displ_low_cyl_8  = if_else(cyl == 8 & displ < mean(displ) & hwy > 30, 'yes', 'no')
+good_mileage_displ_high_cyl_4 = if_else(cyl == 4 & displ > mean(displ) & hwy > 30, 'yes', 'no')
+good_mileage_displ_high_cyl_6 = if_else(cyl == 6 & displ > mean(displ) & hwy > 30, 'yes', 'no')
+good_mileage_displ_high_cyl_8 = if_else(cyl == 8 & displ > mean(displ) & hwy > 30, 'yes', 'no')
+```
+
+Problems?
+
+
+---
+class: inverse code-only
+
+
+```{r}
+good_mileage <- function(
+  cylinder = 4,
+  mpg_cutoff = 30,
+  displ_fun = mean,
+  displ_low = TRUE,
+  cls = 'compact'
+) {
+  
+  if (displ_low == TRUE) {          # condition to check, if it holds,
+    result <- mpg %>%               # filter data given the arguments
+      filter(
+        cyl == cylinder,
+       {{ displ <= displ_fun(displ),}}
+        hwy >= mpg_cutoff,
+        class == cls
+      )
+  } 
+  else {                            # if the condition doesn't hold, filter 
+    result <- mpg %>%               # the data this way instead
+      filter(
+        cyl == cylinder,
+       {{ displ >= displ_fun(displ),}}
+        hwy >= mpg_cutoff,
+        class == cls
+      )
+  }
+  
+  result                            # return the object
+}
+```
+
+---
+class: inverse
+
+# Functions: DRY
+
+
+So what's going on here? 
+
+Not a whole lot really. 
+
+
+The function just filters the data to observations that match the input criteria, and returns that result at the end. We also put *default values* to the arguments, which can be done to your discretion.
 
 
 ---
@@ -760,18 +841,192 @@ class: inverse
 # Functions: Conditionals
 
 
+The core of that function uses a *conditional statement* 
+- using standard <span class="func" style = "">if...else</span> structure. 
+
+The <span class="func" style = "">if</span>: determine whether a condition holds. 
+
+If so, proceed to the next step in the brackets. 
+
+If not, skip to the <span class="func" style = "">else</span> part. 
+
+
+
+---
+class: inverse
+
+# Functions: Conditionals
+
+.pull-left[
+```{r}
+function (x, y) {
+  if (?) {
+    ...
+  }
+  else {
+    ...
+  }
+}
+```
+]
+
+.pull-right[
+```{r}
+function (x, y) {
+  if (?) {
+    ...
+  }
+  else if (?) {
+    ...
+  }
+  else if (?) {
+    ...
+  }
+  .
+  .
+  .
+  else {
+    
+  }
+}
+```
+]
+
+---
+class: inverse
+
+# Functions
+
+At this point we have a nice function that is:
+- *flexible*
+- *reusable*
+- *extensible*
+- *efficient*
+
+Try adding an argument to filter based on year
+
+
+
 
 ---
 class: inverse
 
 # Functions: Anonymous Functions
 
+Sometimes we just need a quick and easy function 
+- one-off application
+- especially for using <span class="func" style = "">apply</span>/<span class="func" style = "">map</span> functions!
+
+```{r eval=T}
+ctyhwy = select(mpg, cty, hwy)
+
+map_dbl(ctyhwy, sd)
+
+map_dbl(ctyhwy, function(x) mean(x) / 2)
+```
 
 
 ---
 class: inverse
 
+# Functions: Anonymous Functions
+
+The second function doesn't exist as an independent R object
+
+- *Anonymous functions* 
+  - Sometimes called *lambda functions*
+
+But it works just the same.
+
+Try this one!
+
+```{r}
+# some variables have a mad = 0, and so return Inf (x/0) or NaN (0/0)
+
+mtcars %>%
+  map_df(function(x) (x - median(x))/mad(x))
+```
+
+
+---
+class: inverse
+
+# Functions: Anonymous Functions
+
+---
+class: inverse
+
 # Functions: Exercises
+
+### Excercise 1
+
+Write a function that takes the log of the sum of two values (i.e. just two single numbers) using the <span class="func">log</span> function.  Just remember that within a function, you can write R code just like you normally would.
+
+```{r wf_ex1, eval=FALSE}
+log_sum <- function(a, b) {
+  ?
+}
+```
+
+---
+class: inverse
+
+# Functions: Exercises
+
+### Excercise 1b
+
+What happens if the sum of the two numbers is negative?  You can't take a log of a negative value, so it's an error.  How might we deal with this?  Try using a conditional to provide an error message using the <span class="func">stop</span> function.  The first part is basically identical to the function you just did.  But given that result, you will need to check for whether it is negative or not.  The message can be whatever you want.
+
+```{r wf_ex1b, eval=FALSE}
+log_sum <- function(a, b) {
+  
+  ?
+  
+  if (? < 0) {
+    stop('Your message here.')
+  } else {
+    ?
+    return(your_log_sum_results)    # this is an arbitrary name, change accordingly
+  }
+}
+```
+
+---
+class: inverse
+
+# Functions: Exercises
+
+### Exercise 2
+
+
+Let's write a function that will take a numeric variable and convert it to a character string of 'positive' vs. 'negative'.  We can use `if {}... else {}` structure.
+- Input: a single vector of numbers
+- Output: will recode any negative value to 'negative' and positive values to 'positive'.  
+
+---
+class: inverse
+
+# Functions: Exercises
+
+### Exercise 2
+
+Here is an example of how we would just do it as a one-off.
+
+```{r wf_ex2, eval=FALSE}
+set.seed(123)  # so you get the exact same 'random' result
+x <- rnorm(10)
+if_else(x < 0, "negative", "positive")
+```
+
+Now try your hand at writing a function for that.
+
+```{r wf_ex2b, eval=FALSE}
+pos_neg <- function(?) {
+  ?
+}
+```
+
+
 
 
 
@@ -782,19 +1037,41 @@ class: inverse
 
 <br>
 <br>
-<i class="fab fa-r-project fa-5x"></i>
+<div class="" style = "text-align: center"><i class="fab fa-r-project fa-5x"></i></div>
+
 
 ---
 class: inverse
 
 # More: Code Style
 
-
+- Why does your code exist?
+- Consistency 
+- Code length
+- Spacing
+- Naming
 
 ---
 class: inverse
 
 # More: Vectorization
+
+Compare:
+
+```{r eval = T}
+mymatrix = matrix(runif(100), 10, 10)
+mymatrix_log = log(mymatrix)
+
+identical(apply(mymatrix, 2, log), log(mymatrix))
+```
+
+```{r eval = T}
+library(bench)
+
+res = mark(loop = apply(mymatrix, 2, log), vector = log(mymatrix), time_unit = 'us')
+
+select(res, expression, median) # microseconds
+```
 
 
 
@@ -803,13 +1080,142 @@ class: inverse
 
 # More: Regular Expressions
 
+ *Regular expression* (regex for short) 
+> A sequence of characters that can be used as a search pattern for a string. Common operations are to merely detect, extract, or replace the matching string
+
+Different flavors for different languages
+
+```{r eval=TRUE}
+pattern = '^r.*shiny[0-9]$'
+string = c('r is the shiny', 'r is the shiny1', 'r shines brightly')
+str_detect(string, pattern)
+```
 
 
 ---
 class: inverse
 
-# More: Exercises
+# More: Regular Expressions
 
+What was that jibberish?
+
+
+- **^** : starts with, so ^r means starts with r
+- **.** : any character
+- ***** : match the preceding zero or more times
+- **shiny** : match 'shiny'
+- *[0-9]* : any digit 0-9 (note that we are still talking about strings, not actual numbered values)
+- *$* : ends with preceding
+
+
+---
+class: inverse
+
+# More: Regular Expressions
+
+
+- **[a-z]** : letters a-z
+- **[A-Z]** : capital letters
+- **\+** : match the preceding one or more times
+- **()** : groupings
+- **|** : logical or 
+    - [a-z]|[0-9] (a lower case letter or a number)
+- **?** : preceding item is optional, and will be matched at most once. 
+    - 'look ahead' and 'look behind'
+- **\** : escape a character, 
+    - want to search for a period instead of using it as a regex pattern, you'd use \.
+    - R needs \\\, i.e. double slashes, for escape.
+
+---
+class: inverse
+
+# More: Regular Expressions
+
+In general, regular expression patterns are gibberish
+
+---
+class: inverse
+
+# More: Code Style Exercises
+
+### Exercise 1
+
+For the following model related output, come up with a name for each object.
+
+```{r}
+lm(hwy ~ cyl, data = mpg)                 # hwy mileage predicted by number of cylinders
+
+summary(lm(hwy ~ cyl, data = mpg))        # the summary of that
+
+lm(hwy ~ cyl + displ + year, data = mpg)  # an extension of that
+```
+
+
+---
+class: inverse
+
+# More: Code Style Exercises
+
+### Exercise 2
+
+Fix this code.
+
+```{r}
+x=rnorm(100, 10, 2)
+y=.2* x+ rnorm(100)
+data = data.frame(x,y)
+q = lm(y~x, data=data)
+summary(q)
+```
+
+---
+class: inverse
+
+# More: Vectorization Exercises
+
+### Exercise 1
+
+Show a non-vectorized (e.g. a loop) and a vectorized way to add a two to the numbers 1 through 3.
+
+
+---
+class: inverse
+
+# More: Vectorization Exercises
+
+### Exercise 2
+
+<span class="func" style = "">colSums</span> vs. <span class="func" style = "">apply</span>, which is faster? 
+  - Test it with the <span class="pack" style = "">bench</span> package.
+
+```{r}
+x = matrix(rpois(100000, lambda = 5), ncol = 100)
+
+bench::mark(
+  cs  = colSums(x),
+  app = apply(x, 2, sum),
+  time_unit = 'ms'
+)
+```
+
+
+
+
+---
+class: inverse
+
+# More: Regex Exercises
+
+### Exercise 1
+
+
+Using <span class="pack" style = "">stringr</span> and <span class="func" style = "">str_replace</span>, replace all the states a’s with nothing.
+
+```{r}
+library(stringr)
+
+str_replace(state.name, pattern = ?, replacement = ?)
+```
 
 ---
 class: last-slide, inverse, center, middle

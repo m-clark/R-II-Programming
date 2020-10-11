@@ -301,20 +301,20 @@ methods('summary')
 
 ```
  [1] summary,ANY-method             summary,DBIObject-method       summary,diagonalMatrix-method  summary,sparseMatrix-method    summary.aov                    summary.aovlist*              
- [7] summary.aspell*                summary.check_packages_in_dir* summary.connection             summary.corAR1*                summary.corARMA*               summary.corCAR1*              
-[13] summary.corCompSymm*           summary.corExp*                summary.corGaus*               summary.corIdent*              summary.corLin*                summary.corNatural*           
-[19] summary.corRatio*              summary.corSpher*              summary.corStruct*             summary.corSymm*               summary.data.frame             summary.Date                  
-[25] summary.default                summary.Duration*              summary.ecdf*                  summary.factor                 summary.gam                    summary.ggplot*               
-[31] summary.glm                    summary.gls*                   summary.haven_labelled*        summary.hcl_palettes*          summary.infl*                  summary.Interval*             
-[37] summary.lm                     summary.lme*                   summary.lmList*                summary.loess*                 summary.manova                 summary.matrix                
-[43] summary.mlm*                   summary.modelStruct*           summary.nls*                   summary.nlsList*               summary.packageStatus*         summary.pdBlocked*            
-[49] summary.pdCompSymm*            summary.pdDiag*                summary.pdIdent*               summary.pdIdnot*               summary.pdLogChol*             summary.pdMat*                
-[55] summary.pdNatural*             summary.pdSymm*                summary.pdTens*                summary.Period*                summary.POSIXct                summary.POSIXlt               
-[61] summary.ppr*                   summary.prcomp*                summary.princomp*              summary.proc_time              summary.reStruct*              summary.rlang_error*          
-[67] summary.rlang_trace*           summary.shingle*               summary.srcfile                summary.srcref                 summary.stepfun                summary.stl*                  
-[73] summary.table                  summary.trellis*               summary.tukeysmooth*           summary.varComb*               summary.varConstPower*         summary.varExp*               
-[79] summary.varFixed*              summary.varFunc*               summary.varIdent*              summary.varPower*              summary.vctrs_sclr*            summary.vctrs_vctr*           
-[85] summary.warnings              
+ [7] summary.aspell*                summary.bench_mark*            summary.check_packages_in_dir* summary.connection             summary.corAR1*                summary.corARMA*              
+[13] summary.corCAR1*               summary.corCompSymm*           summary.corExp*                summary.corGaus*               summary.corIdent*              summary.corLin*               
+[19] summary.corNatural*            summary.corRatio*              summary.corSpher*              summary.corStruct*             summary.corSymm*               summary.data.frame            
+[25] summary.Date                   summary.default                summary.Duration*              summary.ecdf*                  summary.factor                 summary.gam                   
+[31] summary.ggplot*                summary.glm                    summary.gls*                   summary.haven_labelled*        summary.hcl_palettes*          summary.infl*                 
+[37] summary.Interval*              summary.lm                     summary.lme*                   summary.lmList*                summary.loess*                 summary.manova                
+[43] summary.matrix                 summary.mlm*                   summary.modelStruct*           summary.nls*                   summary.nlsList*               summary.packageStatus*        
+[49] summary.pdBlocked*             summary.pdCompSymm*            summary.pdDiag*                summary.pdIdent*               summary.pdIdnot*               summary.pdLogChol*            
+[55] summary.pdMat*                 summary.pdNatural*             summary.pdSymm*                summary.pdTens*                summary.Period*                summary.POSIXct               
+[61] summary.POSIXlt                summary.ppr*                   summary.prcomp*                summary.princomp*              summary.proc_time              summary.reStruct*             
+[67] summary.rlang_error*           summary.rlang_trace*           summary.shingle*               summary.srcfile                summary.srcref                 summary.stepfun               
+[73] summary.stl*                   summary.table                  summary.trellis*               summary.tukeysmooth*           summary.varComb*               summary.varConstPower*        
+[79] summary.varExp*                summary.varFixed*              summary.varFunc*               summary.varIdent*              summary.varPower*              summary.vctrs_sclr*           
+[85] summary.vctrs_vctr*            summary.warnings              
 see '?methods' for accessing help and source code
 ```
 
@@ -575,10 +575,10 @@ replicate(2, rnorm(3)) # also simplifies if possible
 ```
 
 ```
-          [,1]       [,2]
-[1,] 1.1687996  1.1684034
-[2,] 1.5574109 -0.4624408
-[3,] 0.1326427  0.1554322
+            [,1]       [,2]
+[1,]  0.07485525 -0.6323043
+[2,] -0.05433048 -0.9984430
+[3,]  0.61429626  0.4079919
 ```
 
 
@@ -694,9 +694,11 @@ class: inverse slide-title-90
 &lt;i class="fa fa-list-ol fa-3x"&gt;&lt;/i&gt;
 &lt;/div&gt;
 
-Lists are easy to loop!
+&lt;br&gt;
 
-And we can put anything in them to loop over!
+Lists are easy to loop over!
+
+And we can put anything in them!
 
 
 ---
@@ -822,7 +824,7 @@ Not really!
 
 ```r
 square_this = function(x) x^2
-add_one = function(x) x + 1
+add_one     = function(x) x + 1
 
 3 %&gt;% 
   square_this() %&gt;% 
@@ -845,6 +847,7 @@ You use functions all the time.
 
 Why not make your own?
 
+Key idea: *reusable code*
 
 
 ---
@@ -860,6 +863,8 @@ sum(is.na(myvar))
 ```
 
 Let's create a function that would do this.
+
+--
 
 And spit out a usable data frame!
 
@@ -894,8 +899,8 @@ my_summary &lt;- function(x) {
 
 
 `x` is an arbitrary name for an input. 
-  - In R these are called *arguments*
-  - These inputs will determine the output
+- In R these are called *arguments*
+- These inputs will determine the output
 
 
 ---
@@ -924,15 +929,20 @@ my_summary(gapminder_2019$lifeExp)
 1   NA NA       516
 ```
 
+--
 
-Let's fix this!
+Now the function doesn't do what we want. 😢
+
+--
+
+Let's fix this! 😀
 
 ---
 class: inverse
 
 # Functions: Starting Out
 
-Since we have a function, we can modify it
+Since we have a function, we can easily modify it.
 
 
 ```r
@@ -944,15 +954,6 @@ my_summary_na &lt;- function(x, remove_na = TRUE) {
   )
 }
 
-my_summary(gapminder_2019$lifeExp)
-```
-
-```
-  mean sd N_missing
-1   NA NA       516
-```
-
-```r
 my_summary_na(gapminder_2019$lifeExp)
 ```
 
@@ -966,6 +967,81 @@ class: inverse
 
 # Functions: DRY
 
+*&lt;div class="" style = "text-align: center"&gt;Don't Repeat Yourself!&lt;/div&gt;*
+ 
+We would like more efficiency where possible. 
+
+A good rule of thumb is: 
+&gt; If you are writing the same set of code more than twice, you should write a function to do it instead.
+
+
+---
+class: inverse
+
+# Functions: DRY
+
+
+```r
+good_mileage_displ_low_cyl_4  = if_else(cyl == 4 &amp; displ &lt; mean(displ) &amp; hwy &gt; 30, 'yes', 'no')
+good_mileage_displ_low_cyl_6  = if_else(cyl == 6 &amp; displ &lt; mean(displ) &amp; hwy &gt; 30, 'yes', 'no')
+good_mileage_displ_low_cyl_8  = if_else(cyl == 8 &amp; displ &lt; mean(displ) &amp; hwy &gt; 30, 'yes', 'no')
+good_mileage_displ_high_cyl_4 = if_else(cyl == 4 &amp; displ &gt; mean(displ) &amp; hwy &gt; 30, 'yes', 'no')
+good_mileage_displ_high_cyl_6 = if_else(cyl == 6 &amp; displ &gt; mean(displ) &amp; hwy &gt; 30, 'yes', 'no')
+good_mileage_displ_high_cyl_8 = if_else(cyl == 8 &amp; displ &gt; mean(displ) &amp; hwy &gt; 30, 'yes', 'no')
+```
+
+Problems?
+
+
+---
+class: inverse code-only
+
+
+
+```r
+good_mileage &lt;- function(
+  cylinder = 4,
+  mpg_cutoff = 30,
+  displ_fun = mean,
+  displ_low = TRUE,
+  cls = 'compact'
+) {
+  
+  if (displ_low == TRUE) {          # condition to check, if it holds,
+    result &lt;- mpg %&gt;%               # filter data given the arguments
+      filter(
+        cyl == cylinder,
+*        displ &lt;= displ_fun(displ),
+        hwy &gt;= mpg_cutoff,
+        class == cls
+      )
+  } 
+  else {                            # if the condition doesn't hold, filter 
+    result &lt;- mpg %&gt;%               # the data this way instead
+      filter(
+        cyl == cylinder,
+*        displ &gt;= displ_fun(displ),
+        hwy &gt;= mpg_cutoff,
+        class == cls
+      )
+  }
+  
+  result                            # return the object
+}
+```
+
+---
+class: inverse
+
+# Functions: DRY
+
+
+So what's going on here? 
+
+Not a whole lot really. 
+
+
+The function just filters the data to observations that match the input criteria, and returns that result at the end. We also put *default values* to the arguments, which can be done to your discretion.
 
 
 ---
@@ -974,18 +1050,212 @@ class: inverse
 # Functions: Conditionals
 
 
+The core of that function uses a *conditional statement* 
+- using standard &lt;span class="func" style = ""&gt;if...else&lt;/span&gt; structure. 
+
+The &lt;span class="func" style = ""&gt;if&lt;/span&gt;: determine whether a condition holds. 
+
+If so, proceed to the next step in the brackets. 
+
+If not, skip to the &lt;span class="func" style = ""&gt;else&lt;/span&gt; part. 
+
+
+
+---
+class: inverse
+
+# Functions: Conditionals
+
+.pull-left[
+
+```r
+function (x, y) {
+  if (?) {
+    ...
+  }
+  else {
+    ...
+  }
+}
+```
+]
+
+.pull-right[
+
+```r
+function (x, y) {
+  if (?) {
+    ...
+  }
+  else if (?) {
+    ...
+  }
+  else if (?) {
+    ...
+  }
+  .
+  .
+  .
+  else {
+    
+  }
+}
+```
+]
+
+---
+class: inverse
+
+# Functions
+
+At this point we have a nice function that is:
+- *flexible*
+- *reusable*
+- *extensible*
+- *efficient*
+
+Try adding an argument to filter based on year
+
+
+
 
 ---
 class: inverse
 
 # Functions: Anonymous Functions
 
+Sometimes we just need a quick and easy function 
+- one-off application
+- especially for using &lt;span class="func" style = ""&gt;apply&lt;/span&gt;/&lt;span class="func" style = ""&gt;map&lt;/span&gt; functions!
+
+
+```r
+ctyhwy = select(mpg, cty, hwy)
+
+map_dbl(ctyhwy, sd)
+```
+
+```
+     cty      hwy 
+4.255946 5.954643 
+```
+
+```r
+map_dbl(ctyhwy, function(x) mean(x) / 2)
+```
+
+```
+      cty       hwy 
+ 8.429487 11.720085 
+```
 
 
 ---
 class: inverse
 
+# Functions: Anonymous Functions
+
+The second function doesn't exist as an independent R object
+
+- *Anonymous functions* 
+  - Sometimes called *lambda functions*
+
+But it works just the same.
+
+Try this one!
+
+
+```r
+# some variables have a mad = 0, and so return Inf (x/0) or NaN (0/0)
+
+mtcars %&gt;%
+  map_df(function(x) (x - median(x))/mad(x))
+```
+
+
+---
+class: inverse
+
+# Functions: Anonymous Functions
+
+---
+class: inverse
+
 # Functions: Exercises
+
+### Excercise 1
+
+Write a function that takes the log of the sum of two values (i.e. just two single numbers) using the &lt;span class="func"&gt;log&lt;/span&gt; function.  Just remember that within a function, you can write R code just like you normally would.
+
+
+```r
+log_sum &lt;- function(a, b) {
+  ?
+}
+```
+
+---
+class: inverse
+
+# Functions: Exercises
+
+### Excercise 1b
+
+What happens if the sum of the two numbers is negative?  You can't take a log of a negative value, so it's an error.  How might we deal with this?  Try using a conditional to provide an error message using the &lt;span class="func"&gt;stop&lt;/span&gt; function.  The first part is basically identical to the function you just did.  But given that result, you will need to check for whether it is negative or not.  The message can be whatever you want.
+
+
+```r
+log_sum &lt;- function(a, b) {
+  
+  ?
+  
+  if (? &lt; 0) {
+    stop('Your message here.')
+  } else {
+    ?
+    return(your_log_sum_results)    # this is an arbitrary name, change accordingly
+  }
+}
+```
+
+---
+class: inverse
+
+# Functions: Exercises
+
+### Exercise 2
+
+
+Let's write a function that will take a numeric variable and convert it to a character string of 'positive' vs. 'negative'.  We can use `if {}... else {}` structure.
+- Input: a single vector of numbers
+- Output: will recode any negative value to 'negative' and positive values to 'positive'.  
+
+---
+class: inverse
+
+# Functions: Exercises
+
+### Exercise 2
+
+Here is an example of how we would just do it as a one-off.
+
+
+```r
+set.seed(123)  # so you get the exact same 'random' result
+x &lt;- rnorm(10)
+if_else(x &lt; 0, "negative", "positive")
+```
+
+Now try your hand at writing a function for that.
+
+
+```r
+pos_neg &lt;- function(?) {
+  ?
+}
+```
+
+
 
 
 
@@ -996,19 +1266,55 @@ class: inverse
 
 &lt;br&gt;
 &lt;br&gt;
-&lt;i class="fab fa-r-project fa-5x"&gt;&lt;/i&gt;
+&lt;div class="" style = "text-align: center"&gt;&lt;i class="fab fa-r-project fa-5x"&gt;&lt;/i&gt;&lt;/div&gt;
+
 
 ---
 class: inverse
 
 # More: Code Style
 
-
+- Why does your code exist?
+- Consistency 
+- Code length
+- Spacing
+- Naming
 
 ---
 class: inverse
 
 # More: Vectorization
+
+Compare:
+
+
+```r
+mymatrix = matrix(runif(100), 10, 10)
+mymatrix_log = log(mymatrix)
+
+identical(apply(mymatrix, 2, log), log(mymatrix))
+```
+
+```
+[1] TRUE
+```
+
+
+```r
+library(bench)
+
+res = mark(loop = apply(mymatrix, 2, log), vector = log(mymatrix), time_unit = 'us')
+
+select(res, expression, median) # microseconds
+```
+
+```
+# A tibble: 2 x 2
+  expression median
+  &lt;bch:expr&gt;  &lt;dbl&gt;
+1 loop        75.4 
+2 vector       1.62
+```
 
 
 
@@ -1017,13 +1323,151 @@ class: inverse
 
 # More: Regular Expressions
 
+ *Regular expression* (regex for short) 
+&gt; A sequence of characters that can be used as a search pattern for a string. Common operations are to merely detect, extract, or replace the matching string
+
+Different flavors for different languages
+
+
+```r
+pattern = '^r.*shiny[0-9]$'
+string = c('r is the shiny', 'r is the shiny1', 'r shines brightly')
+str_detect(string, pattern)
+```
+
+```
+[1] FALSE  TRUE FALSE
+```
 
 
 ---
 class: inverse
 
-# More: Exercises
+# More: Regular Expressions
 
+What was that jibberish?
+
+
+- **^** : starts with, so ^r means starts with r
+- **.** : any character
+- ***** : match the preceding zero or more times
+- **shiny** : match 'shiny'
+- *[0-9]* : any digit 0-9 (note that we are still talking about strings, not actual numbered values)
+- *$* : ends with preceding
+
+
+---
+class: inverse
+
+# More: Regular Expressions
+
+
+- **[a-z]** : letters a-z
+- **[A-Z]** : capital letters
+- **\+** : match the preceding one or more times
+- **()** : groupings
+- **|** : logical or 
+    - [a-z]|[0-9] (a lower case letter or a number)
+- **?** : preceding item is optional, and will be matched at most once. 
+    - 'look ahead' and 'look behind'
+- **\** : escape a character, 
+    - want to search for a period instead of using it as a regex pattern, you'd use \.
+    - R needs \\\, i.e. double slashes, for escape.
+
+---
+class: inverse
+
+# More: Regular Expressions
+
+In general, regular expression patterns are gibberish
+
+---
+class: inverse
+
+# More: Code Style Exercises
+
+### Exercise 1
+
+For the following model related output, come up with a name for each object.
+
+
+```r
+lm(hwy ~ cyl, data = mpg)                 # hwy mileage predicted by number of cylinders
+
+summary(lm(hwy ~ cyl, data = mpg))        # the summary of that
+
+lm(hwy ~ cyl + displ + year, data = mpg)  # an extension of that
+```
+
+
+---
+class: inverse
+
+# More: Code Style Exercises
+
+### Exercise 2
+
+Fix this code.
+
+
+```r
+x=rnorm(100, 10, 2)
+y=.2* x+ rnorm(100)
+data = data.frame(x,y)
+q = lm(y~x, data=data)
+summary(q)
+```
+
+---
+class: inverse
+
+# More: Vectorization Exercises
+
+### Exercise 1
+
+Show a non-vectorized (e.g. a loop) and a vectorized way to add a two to the numbers 1 through 3.
+
+
+---
+class: inverse
+
+# More: Vectorization Exercises
+
+### Exercise 2
+
+&lt;span class="func" style = ""&gt;colSums&lt;/span&gt; vs. &lt;span class="func" style = ""&gt;apply&lt;/span&gt;, which is faster? 
+  - Test it with the &lt;span class="pack" style = ""&gt;bench&lt;/span&gt; package.
+
+
+```r
+x = matrix(rpois(100000, lambda = 5), ncol = 100)
+
+bench::mark(
+  cs  = colSums(x),
+  app = apply(x, 2, sum),
+  time_unit = 'ms'
+)
+```
+
+
+
+
+---
+class: inverse
+
+# More: Regex Exercises
+
+### Exercise 1
+
+
+Using &lt;span class="pack" style = ""&gt;stringr&lt;/span&gt; and &lt;span class="func" style = ""&gt;str_replace&lt;/span&gt;, replace all the states a’s with nothing.
+
+
+```r
+library(stringr)
+
+str_replace(state.name, pattern = ?, replacement = ?)
+```
 
 ---
 class: last-slide, inverse, center, middle
