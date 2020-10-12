@@ -90,8 +90,8 @@ h1, h2, h3, h4, h5 {
     color: #3f3f3f;
 }
 
-ul li ul li {
-  font-size: 20px;
+ul li, .inverse ul li {
+  font-size: 90%;
 }
 
 blockquote {

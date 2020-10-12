@@ -84,9 +84,6 @@ bottom:-3em;left:1em;
 
 
 
-```r
-library(tidyverse)
-```
 
 
 ---
@@ -152,7 +149,7 @@ class: inverse
 
 # Basics: Objects
 
-Everything in R revolves around the objects we create
+Everything in R revolves around the objects we create.
 
 
 ```r
@@ -218,22 +215,21 @@ str(lm_mod, 1)  # works for functions too! try str(lm)
 ```
 
 ```
-List of 13
- $ coefficients : Named num [1:12] 17.8198 -1.6603 1.6374 0.0139 -0.0461 ...
-  ..- attr(*, "names")= chr [1:12] "(Intercept)" "cyl6" "cyl8" "disp" ...
- $ residuals    : Named num [1:32] -0.802 -0.193 -3.473 1.755 0.995 ...
+List of 12
+ $ coefficients : Named num [1:11] 12.3034 -0.1114 0.0133 -0.0215 0.7871 ...
+  ..- attr(*, "names")= chr [1:11] "(Intercept)" "cyl" "disp" "hp" ...
+ $ residuals    : Named num [1:32] -1.6 -1.112 -3.451 0.163 1.007 ...
   ..- attr(*, "names")= chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...
- $ effects      : Named num [1:32] -113.65 1.04 -28.7 7.59 -4.3 ...
-  ..- attr(*, "names")= chr [1:32] "(Intercept)" "cyl6" "cyl8" "disp" ...
- $ rank         : int 12
- $ fitted.values: Named num [1:32] 21.8 21.2 26.3 19.6 17.7 ...
+ $ effects      : Named num [1:32] -113.65 -28.6 6.13 -3.06 -4.06 ...
+  ..- attr(*, "names")= chr [1:32] "(Intercept)" "cyl" "disp" "hp" ...
+ $ rank         : int 11
+ $ fitted.values: Named num [1:32] 22.6 22.1 26.3 21.2 17.7 ...
   ..- attr(*, "names")= chr [1:32] "Mazda RX4" "Mazda RX4 Wag" "Datsun 710" "Hornet 4 Drive" ...
- $ assign       : int [1:12] 0 1 1 2 3 4 5 6 7 8 ...
+ $ assign       : int [1:11] 0 1 2 3 4 5 6 7 8 9 ...
  $ qr           :List of 5
   ..- attr(*, "class")= chr "qr"
- $ df.residual  : int 20
- $ contrasts    :List of 1
- $ xlevels      :List of 1
+ $ df.residual  : int 21
+ $ xlevels      : Named list()
  $ call         : language lm(formula = mpg ~ ., data = mtcars)
  $ terms        :Classes 'terms', 'formula'  language mpg ~ cyl + disp + hp + drat + wt + qsec + vs + am + gear + carb
   .. ..- attr(*, "variables")= language list(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
@@ -245,7 +241,7 @@ List of 13
   .. ..- attr(*, "response")= int 1
   .. ..- attr(*, ".Environment")=&lt;environment: R_GlobalEnv&gt; 
   .. ..- attr(*, "predvars")= language list(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
-  .. ..- attr(*, "dataClasses")= Named chr [1:11] "numeric" "factor" "numeric" "numeric" ...
+  .. ..- attr(*, "dataClasses")= Named chr [1:11] "numeric" "numeric" "numeric" "numeric" ...
   .. .. ..- attr(*, "names")= chr [1:11] "mpg" "cyl" "disp" "hp" ...
  $ model        :'data.frame':	32 obs. of  11 variables:
   ..- attr(*, "terms")=Classes 'terms', 'formula'  language mpg ~ cyl + disp + hp + drat + wt + qsec + vs + am + gear + carb
@@ -258,7 +254,7 @@ List of 13
   .. .. ..- attr(*, "response")= int 1
   .. .. ..- attr(*, ".Environment")=&lt;environment: R_GlobalEnv&gt; 
   .. .. ..- attr(*, "predvars")= language list(mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
-  .. .. ..- attr(*, "dataClasses")= Named chr [1:11] "numeric" "factor" "numeric" "numeric" ...
+  .. .. ..- attr(*, "dataClasses")= Named chr [1:11] "numeric" "numeric" "numeric" "numeric" ...
   .. .. .. ..- attr(*, "names")= chr [1:11] "mpg" "cyl" "disp" "hp" ...
  - attr(*, "class")= chr "lm"
 ```
@@ -300,21 +296,14 @@ methods('summary')
 ```
 
 ```
- [1] summary,ANY-method             summary,DBIObject-method       summary,diagonalMatrix-method  summary,sparseMatrix-method    summary.aov                    summary.aovlist*              
- [7] summary.aspell*                summary.bench_mark*            summary.check_packages_in_dir* summary.connection             summary.corAR1*                summary.corARMA*              
-[13] summary.corCAR1*               summary.corCompSymm*           summary.corExp*                summary.corGaus*               summary.corIdent*              summary.corLin*               
-[19] summary.corNatural*            summary.corRatio*              summary.corSpher*              summary.corStruct*             summary.corSymm*               summary.data.frame            
-[25] summary.Date                   summary.default                summary.Duration*              summary.ecdf*                  summary.factor                 summary.gam                   
-[31] summary.ggplot*                summary.glm                    summary.gls*                   summary.haven_labelled*        summary.hcl_palettes*          summary.infl*                 
-[37] summary.Interval*              summary.lm                     summary.lme*                   summary.lmList*                summary.loess*                 summary.manova                
-[43] summary.matrix                 summary.mlm*                   summary.modelStruct*           summary.nls*                   summary.nlsList*               summary.packageStatus*        
-[49] summary.pdBlocked*             summary.pdCompSymm*            summary.pdDiag*                summary.pdIdent*               summary.pdIdnot*               summary.pdLogChol*            
-[55] summary.pdMat*                 summary.pdNatural*             summary.pdSymm*                summary.pdTens*                summary.Period*                summary.POSIXct               
-[61] summary.POSIXlt                summary.ppr*                   summary.prcomp*                summary.princomp*              summary.proc_time              summary.reStruct*             
-[67] summary.rlang_error*           summary.rlang_trace*           summary.shingle*               summary.srcfile                summary.srcref                 summary.stepfun               
-[73] summary.stl*                   summary.table                  summary.trellis*               summary.tukeysmooth*           summary.varComb*               summary.varConstPower*        
-[79] summary.varExp*                summary.varFixed*              summary.varFunc*               summary.varIdent*              summary.varPower*              summary.vctrs_sclr*           
-[85] summary.vctrs_vctr*            summary.warnings              
+ [1] summary,ANY-method             summary,DBIObject-method       summary.aov                    summary.aovlist*               summary.aspell*                summary.bench_mark*           
+ [7] summary.check_packages_in_dir* summary.connection             summary.data.frame             summary.Date                   summary.default                summary.Duration*             
+[13] summary.ecdf*                  summary.factor                 summary.ggplot*                summary.glm                    summary.haven_labelled*        summary.hcl_palettes*         
+[19] summary.infl*                  summary.Interval*              summary.lm                     summary.loess*                 summary.manova                 summary.matrix                
+[25] summary.mlm*                   summary.nls*                   summary.packageStatus*         summary.Period*                summary.POSIXct                summary.POSIXlt               
+[31] summary.ppr*                   summary.prcomp*                summary.princomp*              summary.proc_time              summary.rlang_error*           summary.rlang_trace*          
+[37] summary.srcfile                summary.srcref                 summary.stepfun                summary.stl*                   summary.table                  summary.tukeysmooth*          
+[43] summary.vctrs_sclr*            summary.vctrs_vctr*            summary.warnings              
 see '?methods' for accessing help and source code
 ```
 
@@ -440,6 +429,42 @@ for (column in c('temp', 'humid', 'wind_speed', 'precip')) {
 [1] 0.004469079
 ```
 
+---
+class: inverse
+
+# Iterative Programming: For Loops
+
+We can set things up before the loop
+- make changes more easily
+- slight speed gain
+
+
+```r
+weather = nycflights13::weather
+cols = c('temp', 'humid', 'wind_speed', 'precip')
+result = vector('list', length(cols))
+names(result) = cols
+
+for (column in cols) {
+  result[[column]] = mean(weather[[column]], na.rm = TRUE)
+}
+
+result
+```
+
+```
+$temp
+[1] 55.26039
+
+$humid
+[1] 62.53006
+
+$wind_speed
+[1] 10.51749
+
+$precip
+[1] 0.004469079
+```
 
 ---
 class: inverse
@@ -575,10 +600,10 @@ replicate(2, rnorm(3)) # also simplifies if possible
 ```
 
 ```
-            [,1]       [,2]
-[1,]  0.07485525 -0.6323043
-[2,] -0.05433048 -0.9984430
-[3,]  0.61429626  0.4079919
+           [,1]      [,2]
+[1,]  0.2966127 0.7395668
+[2,]  0.2883979 0.5099046
+[3,] -0.5899376 0.6568779
 ```
 
 
@@ -588,7 +613,7 @@ class: inverse
 # Iterative Programming: Implicit Loops
 
 purrr is best with *data.frame* or *list* objects
-- works the same way in spirit as `*apply`.
+- works the same way in spirit as **apply*.
 - more control over output
   - more strict about input
   - can be frustrating!
@@ -823,11 +848,11 @@ Not really!
 
 
 ```r
-square_this = function(x) x^2
-add_one     = function(x) x + 1
+square_it = function(x) x^2
+add_one   = function(x) x + 1
 
 3 %&gt;% 
-  square_this() %&gt;% 
+  square_it() %&gt;% 
   add_one()
 ```
 
@@ -899,7 +924,7 @@ my_summary &lt;- function(x) {
 
 
 `x` is an arbitrary name for an input. 
-- In R these are called *arguments*
+- In R, these are called *arguments*
 - These inputs will determine the output
 
 
@@ -942,7 +967,9 @@ class: inverse
 
 # Functions: Starting Out
 
-Since we have a function, we can easily modify it.
+We have a function, so we can easily modify it!
+
+Add an argument to deal with missing values.
 
 
 ```r
@@ -1041,7 +1068,7 @@ So what's going on here?
 Not a whole lot really. 
 
 
-The function just filters the data to observations that match the input criteria, and returns that result at the end. We also put *default values* to the arguments, which can be done to your discretion.
+The function just filters the data to observations that match the input criteria, and returns that result at the end. We also put *default values* to the arguments, which can be done at your discretion.
 
 
 ---
@@ -1053,11 +1080,17 @@ class: inverse
 The core of that function uses a *conditional statement* 
 - using standard &lt;span class="func" style = ""&gt;if...else&lt;/span&gt; structure. 
 
-The &lt;span class="func" style = ""&gt;if&lt;/span&gt;: determine whether a condition holds. 
+The &lt;span class="func" style = ""&gt;if&lt;/span&gt;: determines whether a condition holds. 
 
-If so, proceed to the next step in the brackets. 
+--
 
-If not, skip to the &lt;span class="func" style = ""&gt;else&lt;/span&gt; part. 
+If so...
+  - proceed to the next step in the brackets. 
+
+--
+
+If not...
+  - skip to the &lt;span class="func" style = ""&gt;else&lt;/span&gt; part. 
 
 
 
@@ -1070,11 +1103,13 @@ class: inverse
 
 ```r
 function (x, y) {
-  if (?) {
+  if (x == 'cat') {
     ...
+    # do something to y
   }
   else {
     ...
+    # do something else
   }
 }
 ```
@@ -1084,13 +1119,15 @@ function (x, y) {
 
 ```r
 function (x, y) {
-  if (?) {
+  if (x == 'cat') {
     ...
   }
-  else if (?) {
+  else if (x == 'otter') {
     ...
   }
-  else if (?) {
+  else if (
+    x == 'puppy' &amp; y &gt; 5
+    ) {
     ...
   }
   .
@@ -1106,7 +1143,7 @@ function (x, y) {
 ---
 class: inverse
 
-# Functions
+# Functions: Conditionals
 
 At this point we have a nice function that is:
 - *flexible*
@@ -1114,9 +1151,38 @@ At this point we have a nice function that is:
 - *extensible*
 - *efficient*
 
-Try adding an argument to filter based on year
+How would you add an argument to filter based on year?
+
+---
+class: inverse code-only
 
 
+```r
+good_mileage &lt;- function(
+  cylinder = 4,
+  mpg_cutoff = 30,
+  displ_fun = mean,
+  displ_low = TRUE,
+  cls = 'compact',
+  year = 2008
+) {
+  
+  if (displ_low == TRUE) {          
+    result &lt;- mpg %&gt;%               
+      filter(
+        cyl == cylinder,
+        displ &lt;= displ_fun(displ),
+        hwy &gt;= mpg_cutoff,
+        class == cls,
+*        year == year 
+      )
+  } 
+  
+  .
+  .
+  .
+}
+```
 
 
 ---
@@ -1126,7 +1192,7 @@ class: inverse
 
 Sometimes we just need a quick and easy function 
 - one-off application
-- especially for using &lt;span class="func" style = ""&gt;apply&lt;/span&gt;/&lt;span class="func" style = ""&gt;map&lt;/span&gt; functions!
+- especially when using &lt;span class="func" style = ""&gt;apply&lt;/span&gt;/&lt;span class="func" style = ""&gt;map&lt;/span&gt;
 
 
 ```r
@@ -1173,10 +1239,6 @@ mtcars %&gt;%
 ```
 
 
----
-class: inverse
-
-# Functions: Anonymous Functions
 
 ---
 class: inverse
@@ -1260,7 +1322,7 @@ pos_neg &lt;- function(?) {
 
 
 ---
-class: inverse 
+class: inverse middle  center animated flashIn rollOut # https://animate.style/
 
 # More
 
@@ -1274,11 +1336,31 @@ class: inverse
 
 # More: Code Style
 
+.pull-left[
+Think about...
+
 - Why does your code exist?
 - Consistency 
 - Code length
 - Spacing
 - Naming
+]
+.pull-right[
+&lt;br&gt;
+&lt;br&gt;
+&lt;img src="img/monkey_thinking.jpg" style="display:block; margin: 0 auto; width: 100%"&gt;
+]
+
+---
+class: inverse
+
+# More: Code Style
+
+These are actually difficult problems
+
+No easy solutions
+
+Practice
 
 ---
 class: inverse
@@ -1301,9 +1383,7 @@ identical(apply(mymatrix, 2, log), log(mymatrix))
 
 
 ```r
-library(bench)
-
-res = mark(loop = apply(mymatrix, 2, log), vector = log(mymatrix), time_unit = 'us')
+res = bench::mark(loop = apply(mymatrix, 2, log), vector = log(mymatrix), time_unit = 'us')
 
 select(res, expression, median) # microseconds
 ```
@@ -1312,10 +1392,18 @@ select(res, expression, median) # microseconds
 # A tibble: 2 x 2
   expression median
   &lt;bch:expr&gt;  &lt;dbl&gt;
-1 loop        75.4 
-2 vector       1.62
+1 loop       29.0  
+2 vector      0.762
 ```
 
+---
+class: inverse
+
+# More: Vectorization
+
+The whole vector is considered, rather than each element individually. 
+
+Preprocessing is done once rather than the n iterations of the loop. 
 
 
 ---
@@ -1331,7 +1419,9 @@ Different flavors for different languages
 
 ```r
 pattern = '^r.*shiny[0-9]$'
+
 string = c('r is the shiny', 'r is the shiny1', 'r shines brightly')
+
 str_detect(string, pattern)
 ```
 
@@ -1345,11 +1435,12 @@ class: inverse
 
 # More: Regular Expressions
 
-What was that jibberish?
+What is that gibberish?
 
+`'^r.*shiny[0-9]$'`
 
-- **^** : starts with, so ^r means starts with r
-- **.** : any character
+- **^** : starts with, so `^r` means starts with r
+- **.** : any character (wild card)
 - ***** : match the preceding zero or more times
 - **shiny** : match 'shiny'
 - *[0-9]* : any digit 0-9 (note that we are still talking about strings, not actual numbered values)
@@ -1379,7 +1470,13 @@ class: inverse
 
 # More: Regular Expressions
 
-In general, regular expression patterns are gibberish
+Regular expression patterns are difficult to learn at best.
+
+But...
+
+--
+
+Every question has been asked on StackOverflow. 😄
 
 ---
 class: inverse
@@ -1460,7 +1557,7 @@ class: inverse
 ### Exercise 1
 
 
-Using &lt;span class="pack" style = ""&gt;stringr&lt;/span&gt; and &lt;span class="func" style = ""&gt;str_replace&lt;/span&gt;, replace all the states a’s with nothing.
+Using &lt;span class="pack" style = ""&gt;stringr&lt;/span&gt; and &lt;span class="func" style = ""&gt;str_replace&lt;/span&gt;, replace all the states a's with nothing.
 
 
 ```r
