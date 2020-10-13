@@ -550,20 +550,23 @@ class: inverse slide-title-90
 
 # Iterative Programming: Looping with Lists
 
+Here we create models of varying complexity.
+
 ```{r, eval=TRUE}
 library(mgcv) # for gam
 
 mtcars$cyl = factor(mtcars$cyl)
 
-mod_lm = lm(mpg ~ wt, data = mtcars)
+mod_lm     = lm(mpg ~ wt, data = mtcars)
 
-mod_poly = lm(mpg ~ poly(wt, 2), data = mtcars)
+mod_poly   = lm(mpg ~ poly(wt, 2), data = mtcars)
 
-mod_inter = lm(mpg ~ wt * cyl, data = mtcars)
+mod_inter  = lm(mpg ~ wt * cyl, data = mtcars)
 
-mod_gam = gam(mpg ~ s(wt), data = mtcars)
+mod_gam    = gam(mpg ~ s(wt), data = mtcars)
 
-mod_gam_inter = gam(mpg ~ cyl + s(wt, by = cyl), data = mtcars)
+mod_gam_inter = gam(mpg ~ cyl + s(wt, by = cyl), 
+                    data = mtcars)
 ```
 
 
@@ -576,11 +579,11 @@ class: inverse slide-title-90
 
 ```{r, eval=T}
 model_list = list(
-  mod_lm        = mod_lm,
-  mod_poly      = mod_poly,
-  mod_inter     = mod_inter,
-  mod_gam       = mod_gam,
-  mod_gam_inter = mod_gam_inter
+  lm        = mod_lm,
+  poly      = mod_poly,
+  inter     = mod_inter,
+  gam       = mod_gam,
+  gam_inter = mod_gam_inter
 )
 
 # lowest wins
@@ -1088,11 +1091,10 @@ pos_neg <- function(?) {
 
 
 ---
-class: inverse middle  center animated flashIn rollOut # https://animate.style/
+class: inverse middle center animated bounceInUp fadeOutUpBig # https://animate.style/
 
 # More
 
-<br>
 <br>
 <div class="" style = "text-align: center"><i class="fab fa-r-project fa-5x"></i></div>
 

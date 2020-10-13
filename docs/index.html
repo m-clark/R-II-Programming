@@ -608,10 +608,10 @@ replicate(2, rnorm(3)) # also simplifies if possible
 ```
 
 ```
-            [,1]       [,2]
-[1,] -0.89575465  0.3306135
-[2,] -0.07502746 -0.2304742
-[3,]  0.13410722  1.3992601
+           [,1]       [,2]
+[1,] -0.6381753 -0.1583511
+[2,]  0.1686866  0.6102414
+[3,]  0.4510163  1.8485468
 ```
 
 
@@ -739,21 +739,24 @@ class: inverse slide-title-90
 
 # Iterative Programming: Looping with Lists
 
+Here we create models of varying complexity.
+
 
 ```r
 library(mgcv) # for gam
 
 mtcars$cyl = factor(mtcars$cyl)
 
-mod_lm = lm(mpg ~ wt, data = mtcars)
+mod_lm     = lm(mpg ~ wt, data = mtcars)
 
-mod_poly = lm(mpg ~ poly(wt, 2), data = mtcars)
+mod_poly   = lm(mpg ~ poly(wt, 2), data = mtcars)
 
-mod_inter = lm(mpg ~ wt * cyl, data = mtcars)
+mod_inter  = lm(mpg ~ wt * cyl, data = mtcars)
 
-mod_gam = gam(mpg ~ s(wt), data = mtcars)
+mod_gam    = gam(mpg ~ s(wt), data = mtcars)
 
-mod_gam_inter = gam(mpg ~ cyl + s(wt, by = cyl), data = mtcars)
+mod_gam_inter = gam(mpg ~ cyl + s(wt, by = cyl), 
+                    data = mtcars)
 ```
 
 
@@ -767,11 +770,11 @@ class: inverse slide-title-90
 
 ```r
 model_list = list(
-  mod_lm        = mod_lm,
-  mod_poly      = mod_poly,
-  mod_inter     = mod_inter,
-  mod_gam       = mod_gam,
-  mod_gam_inter = mod_gam_inter
+  lm        = mod_lm,
+  poly      = mod_poly,
+  inter     = mod_inter,
+  gam       = mod_gam,
+  gam_inter = mod_gam_inter
 )
 
 # lowest wins
@@ -782,9 +785,9 @@ model_list %&gt;%
 
 ```
 # A tibble: 1 x 5
-  mod_gam_inter mod_inter mod_poly mod_gam mod_lm
-          &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
-1          151.      155.     158.    159.   166.
+  gam_inter inter  poly   gam    lm
+      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1      151.  155.  158.  159.  166.
 ```
 
 
@@ -1330,11 +1333,10 @@ pos_neg &lt;- function(?) {
 
 
 ---
-class: inverse middle  center animated flashIn rollOut # https://animate.style/
+class: inverse middle center animated bounceInUp fadeOutUpBig # https://animate.style/
 
 # More
 
-&lt;br&gt;
 &lt;br&gt;
 &lt;div class="" style = "text-align: center"&gt;&lt;i class="fab fa-r-project fa-5x"&gt;&lt;/i&gt;&lt;/div&gt;
 
@@ -1400,8 +1402,8 @@ select(res, expression, median) # microseconds
 # A tibble: 2 x 2
   expression median
   &lt;bch:expr&gt;  &lt;dbl&gt;
-1 loop       28.0  
-2 vector      0.737
+1 loop       41.9  
+2 vector      0.999
 ```
 
 ---
