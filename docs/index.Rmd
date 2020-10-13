@@ -1,6 +1,6 @@
 ---
 title: "<span class='title'>R II: Programming</span>"
-subtitle: "<span class='subtitle'>Data Wrangling</span>"
+subtitle: "<span class='subtitle'>Loops, Functions, & More</span>"
 author: "<span class='author'>Michael Clark</span>"
 institute: "<span class='institute'>m-clark.github.io <br> @statsdatasci <br> CSCAR, UM</span>"
 date: "<span class='date'>2020-10-13</span>"

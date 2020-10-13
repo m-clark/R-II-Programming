@@ -28,7 +28,7 @@
 class: center, middle, inverse, title-slide
 
 # <span class="title">R II: Programming</span>
-## <span class="subtitle">Data Wrangling</span>
+## <span class="subtitle">Loops, Functions, &amp; More</span>
 ### <span class="author">Michael Clark</span>
 ### <span class="institute">m-clark.github.io <br> <span class="citation">@statsdatasci</span> <br> CSCAR, UM</span>
 ### <span class="date">2020-10-13</span>
@@ -608,10 +608,10 @@ replicate(2, rnorm(3)) # also simplifies if possible
 ```
 
 ```
-            [,1]      [,2]
-[1,] -0.55031710 0.2081704
-[2,] -0.84665347 1.3088800
-[3,] -0.01783126 0.3304208
+            [,1]       [,2]
+[1,] -0.89575465  0.3306135
+[2,] -0.07502746 -0.2304742
+[3,]  0.13410722  1.3992601
 ```
 
 
@@ -1400,8 +1400,8 @@ select(res, expression, median) # microseconds
 # A tibble: 2 x 2
   expression median
   &lt;bch:expr&gt;  &lt;dbl&gt;
-1 loop       27.7  
-2 vector      0.727
+1 loop       28.0  
+2 vector      0.737
 ```
 
 ---
